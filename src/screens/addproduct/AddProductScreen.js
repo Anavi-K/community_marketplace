@@ -1,45 +1,51 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Alert } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
 import FormInput from "../../components/form/FormInput";
 import SubmitButton from "../../components/form/SubmitButton";
 
-// ✔ Validation Schema
+// Validation schema
 const ProductSchema = Yup.object().shape({
-  title: Yup.string().required("Product title is required"),
+  title: Yup.string().required("Title is required"),
   description: Yup.string().required("Description is required"),
   price: Yup.number()
     .typeError("Price must be a number")
-    .positive("Price must be greater than 0")
+    .positive("Price must be positive")
     .required("Price is required"),
 });
 
-const AddProductScreen = () => {
+export default function AddProductScreen() {
+  const [products, setProducts] = useState([]);
+
+  const handleSubmit = (values, { resetForm }) => {
+    // Add product to local state
+    const newProduct = {
+      ...values,
+      image: "placeholder.png", // image placeholder
+    };
+
+    setProducts([...products, newProduct]);
+    resetForm(); // clear the form
+
+    Alert.alert("Success", "Product added successfully!");
+    console.log("All products:", [...products, newProduct]);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Add New Product</Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.heading}>Add a Product</Text>
 
       <Formik
         initialValues={{ title: "", description: "", price: "" }}
         validationSchema={ProductSchema}
-        onSubmit={(values) => {
-          console.log("Form Submitted:", values);
-          alert("Product submitted (static mode)!");
-        }}
+        onSubmit={handleSubmit}
       >
-        {({
-          handleChange,
-          handleSubmit,
-          values,
-          errors,
-          touched,
-          handleBlur,
-        }) => (
-          <>
+        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+          <View>
             <FormInput
-              label="Product Title"
+              placeholder="Product Title"
               value={values.title}
               onChangeText={handleChange("title")}
               onBlur={handleBlur("title")}
@@ -47,8 +53,7 @@ const AddProductScreen = () => {
             />
 
             <FormInput
-              label="Description"
-              multiline
+              placeholder="Description"
               value={values.description}
               onChangeText={handleChange("description")}
               onBlur={handleBlur("description")}
@@ -56,46 +61,42 @@ const AddProductScreen = () => {
             />
 
             <FormInput
-              label="Price"
-              keyboardType="numeric"
+              placeholder="Price"
               value={values.price}
               onChangeText={handleChange("price")}
               onBlur={handleBlur("price")}
+              keyboardType="numeric"
               error={touched.price && errors.price}
             />
 
-            {/* Image Upload Placeholder */}
-            <TouchableOpacity style={styles.imgPlaceholder}>
-              <Text style={{ color: "#888" }}>Upload Image (Coming Soon)</Text>
-            </TouchableOpacity>
+            {/* Placeholder for image */}
+            <View style={styles.imagePlaceholder}>
+              <Text>Image Placeholder</Text>
+            </View>
 
-            <SubmitButton title="Submit Product" onPress={handleSubmit} />
-          </>
+            <SubmitButton title="Add Product" onPress={handleSubmit} />
+          </View>
         )}
       </Formik>
-    </View>
+    </ScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    flex: 1,
-    backgroundColor: "#fff",
+    padding: 16,
   },
   heading: {
     fontSize: 22,
-    fontWeight: "700",
+    fontWeight: "bold",
     marginBottom: 20,
   },
-  imgPlaceholder: {
-    borderWidth: 1,
-    borderColor: "#bbb",
-    padding: 20,
-    borderRadius: 10,
+  imagePlaceholder: {
+    height: 150,
+    backgroundColor: "#eee",
+    justifyContent: "center",
     alignItems: "center",
-    marginVertical: 15,
+    marginVertical: 16,
+    borderRadius: 8,
   },
 });
-
-export default AddProductScreen;

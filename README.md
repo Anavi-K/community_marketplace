@@ -1,155 +1,129 @@
-Community Marketplace App
+Community Marketplace — React Native (Expo)
 
-A React Native (Expo) project for building a simple community-driven marketplace with product listing, refined UI components, and a product submission form.
+This project is a simple community marketplace application built using React Native with Expo.
+It includes a product submission form and a basic component structure to prepare for future backend integration.
 
-Project Overview
+Getting Started
+1. Install dependencies
 
-This application is part of a multi-stage project to build a fully functional marketplace app.
-In the current stage, the app includes:
-
-Home Screen (Static UI)
-
-Product cards (static)
-
-Search bar
-
-Header
-
-Category chips
-
-Responsive list layout
-
-Refined UI Enhancements
-
-Improved spacing, padding, fonts
-
-Clean product card design
-
-Touchable components with better UX
-
-Add Product Form
-
-Built using Formik and Yup
-
-Fields:
-
-Product Title
-
-Description
-
-Price
-
-Image upload placeholder (non-functional for now)
-
-Real-time validation messages
-
-Prevents invalid submission
-
-Folder Structure
-community-marketplace/
-│  App.js
-│  package.json
-│  app.json
-│
-└───src/
-    ├───components/
-    │     │  CategoryChips.js
-    │     │  Header.js
-    │     │  ProductCard.js
-    │     │  SearchBar.js
-    │     └──form/
-    │            FormInput.js
-    │            SubmitButton.js
-    │
-    ├───screens/
-    │      HomeScreen.js
-    │      └──addproduct/
-    │              AddProductScreen.js
-    │
-    └───styles/
-           colors.js
-           global.js
-
-Technologies Used
-
-React Native
-
-Expo
-
-React Navigation
-
-Formik
-
-Yup
-
-Installation
-
-Clone the repository:
-
-git clone <your-repo-url>
-
-
-Install dependencies:
+Run the following inside your project folder:
 
 npm install
 
 
-Install form packages:
+Install additional required packages:
 
 npm install formik yup
 
-Running the App
-
-Start the development server:
-
-npx expo start -c
+2. Start the application
+npm start
 
 
-Scan the QR code using Expo Go, or press:
+Or start for a specific platform:
 
-a → run on Android emulator
+npm run android
+npm run ios
+npm run web
 
-w → run on web
+Project Structure
+community-marketplace/
+│   App.js
+│   app.json
+│   package.json
+│   README.md
+│
+└───src
+    ├───components
+    │   │   Header.js
+    │   │   SearchBar.js
+    │   │   CategoryChips.js
+    │   │   ProductCard.js
+    │   └───form
+    │           FormInput.js
+    │           SubmitButton.js
+    │
+    ├───screens
+    │   │   HomeScreen.js
+    │   └───addproduct
+    │           AddProductScreen.js
+    │
+    └───styles
+            colors.js
+            global.js
 
-Validation Rules (Add Product Form)
+Application Entry File
+
+For this milestone, the application starts directly with the Add Product screen.
+Your App.js should contain:
+
+import AddProductScreen from "./src/screens/addproduct/AddProductScreen";
+
+export default function App() {
+  return <AddProductScreen />;
+}
+
+
+You can re-enable navigation when needed.
+
+Features Included in This Part
+
+Product form with the following fields:
 
 Title
 
-Required
-
-Minimum 3 characters
-
 Description
-
-Required
-
-Minimum 10 characters
 
 Price
 
-Required
+Image placeholder (text only)
 
-Must be a number
+Validation using Yup
 
-Must be positive
+Form submission handled locally
 
-Image Upload
+Submitted data logged to the console
 
-UI-only (no actual upload yet)
+No Firestore or backend integration yet
 
-Challenges Faced and Solutions
-Challenge	Solution
-Formik not found	Installed correctly and cleared Metro cache
-Expo opening default app	Removed auto-created /app folder
-Case-sensitive imports	Renamed files / fixed import paths
-Missing icon assets causing errors	Removed icon configuration from app.json
-Validation errors not displaying	Correctly implemented touched + errors
-Upcoming Features
+Notes on Icons and Assets
 
-Firestore integration
+This project currently does not use any icons.
+Ensure that your app.json does not reference missing images.
 
-Real image upload
+Example minimal configuration:
 
-User authentication
+{
+  "expo": {
+    "name": "community-marketplace",
+    "slug": "community-marketplace",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic"
+  }
+}
 
-Product detail screen with dynamic data
+Version Control
+
+If this is part of a group project:
+
+Push all changes to your existing GitHub repository.
+
+Use branches for new features.
+
+Create pull requests for review.
+
+Maintain clear commit messages.
+
+Milestone Summary
+
+This milestone focuses on:
+
+Implementing the form layout
+
+Adding validation
+
+Simulating product submission
+
+Preparing for future integration with Firestore
+
+Firestore will be added in the next phase.
